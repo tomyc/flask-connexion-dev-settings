@@ -1,0 +1,68 @@
+/*
+ * CSS stylesheet for home page
+ */
+
+div.renstr_site {
+    margin: 5px 5px 5px 5px;
+    border: 2px solid darkgrey;
+    width: 95%;
+    alignment: center;
+}
+
+.renstr_site table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.renstr_site table caption {
+    font-weight: bold;
+    padding: 10px 0 10px 0;
+    border-bottom: 2px solid darkgrey;
+    background-color: antiquewhite;
+}
+
+.renstr_site table thead {
+    padding: 10px 0 10px 0;
+}
+
+th:not(:last-child), td:not(:last-child) {
+    border-right: 2px solid darkgrey;
+}
+
+td.name {
+    text-align: center;
+}
+
+td.timestamp {
+    text-align: center;
+}
+
+td.setting {
+    text-align: left;
+    padding-left: 5px;
+}
+
+td.setting_device_address {
+    text-align: left;
+    padding-left: 5px;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: gainsboro;
+}
+
+tbody td.name, tbody td.setting, tbody td.setting_device_address {
+    cursor: pointer;
+}
+
+thead tr {
+    border-bottom: 2px solid darkgrey;
+}
+
+tbody tr:not(:last-child){
+    border-bottom: 2px solid darkgrey;
+}
+
+tbody tr:hover {
+    background-color: powderblue;
+}

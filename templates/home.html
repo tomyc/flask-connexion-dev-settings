@@ -1,0 +1,58 @@
+{% extends "parent.html" %}
+{% block title %}Setting test site{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="/static/css/home.css">
+{% endblock %}
+
+{% block page_name %}Room-Setting Test Site{% endblock %}
+
+{% block body %}
+<div class="renstr_site">
+    <table class="renstr_site">
+        <caption>Settings Entries</caption>
+        <thead>
+            <tr>
+                <th>Creation Time</th>
+                <th>Place</th>
+                <th>Device No.</th>
+                <th>Address</th>
+                <th>Reinforcement</th>
+                <th>Transmission Power</th>
+                <th>Connectivity</th>
+                <th>Battery Status</th>
+                <th>State</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<div class="error">
+</div>
+
+<!-- Handlebars script tag entry -->
+{% raw %}
+<script id="renstr_site-table-template" type="text/x-handlebars-template">
+    <tbody>
+        {{#each settings}}
+        <tr data-place_id="{{place.place_id}}" data-device_id="{{device_id}}">
+            <td class="timestamp">{{formatTimestamp timestamp}}</td>
+            <td class="name">{{place.description}} {{place.place_name}}</td>
+            <td class="setting">{{setting_device_no}}</td>
+            <td class="setting">{{setting_device_address}}</td>
+            <td class="setting">{{setting_device_reinforcement}}</td>
+            <td class="setting">{{setting_device_transmission_power}}</td>
+            <td class="setting">{{setting_device_bt}}</td>
+            <td class="setting">{{setting_device_battery_status}}</td>
+            <td class="setting">{{setting_device_state}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</script>
+{% endraw %}
+
+{% endblock %}
+
+{% block javascript %}
+{{ super() }}
+<script src="/static/js/home.js"></script>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "parent.html" %}
+{% block title %}Room{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="/static/css/rooms.css">
+{% endblock %}
+
+{% block page_name %}Room: Create/Update/Delete Page{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <input id="url_place_id" type="hidden" value="{{ place_id }}" />
+        <div class="section editor">
+            <div>
+                <span>Place ID:</span>
+                <span id="place_id"></span>
+            </div> <br />
+            <label for="place_name">Place name
+                <input id="place_name" type="text" />
+            </label>
+            <br />
+            <label for="description">Place description
+                <input id="description" type="text" />
+            </label>
+            <br />
+            <button id="create">Create</button>
+            <button id="update">Update</button>
+            <button id="delete">Delete</button>
+            <button id="reset">Reset</button>
+        </div>
+        <div class="rooms">
+            <table>
+                <caption>Room</caption>
+                <thead>
+                    <tr>
+                        <th>Creation/Update Timestamp</th>
+                        <th>Room</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="error">
+        </div>
+    </div>
+    <div class="error">
+    </div>
+
+<!-- Handlebars script tag entry -->
+{% raw %}
+<script id="rooms-table-template" type="text/x-handlebars-template">
+    <tbody>
+        {{#each rooms}}
+            <tr data-place_id="{{place_id}}" data-description="{{description}}" data-place_name="{{place_name}}">
+                <td class="timestamp">{{formatTimestamp timestamp}}</td>
+                <td class="name">{{place_name}}{{description}} </td>
+
+            </tr>
+        {{/each}}
+    </tbody>
+</script>
+{% endraw %}
+
+{% endblock %}
+
+{% block javascript %}
+{{ super() }}
+<script src="/static/js/rooms.js"></script>
+{% endblock %}

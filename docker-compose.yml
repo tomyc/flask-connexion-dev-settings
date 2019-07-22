@@ -1,0 +1,11 @@
+version: '3'
+services:
+  flaskapp:
+    image: "rt_device_settings_flask_rest:last"
+    ports:
+      - "8082:5000"
+    networks:
+      - web_nw
+networks:
+  web_nw:
+    driver: bridge

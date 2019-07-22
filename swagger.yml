@@ -1,0 +1,465 @@
+swagger: "2.0"
+info:
+  description: This is RestFul API providing access to radio tomography device' settings parameters.
+
+  version: "1.0.0"
+  title: API for RT device' settings data
+consumes:
+  - application/json
+produces:
+  - application/json
+
+basePath: /api
+
+# Paths supported by the server application
+paths:
+  /rooms:
+    get:
+      operationId: rooms.read_all
+      tags:
+        - Rooms
+      summary: Read the entire set of rooms (localisations of devices sets), sorted by place id
+      description: Read the entire set of rooms, sorted by place id
+      responses:
+        200:
+          description: Successfully read rooms set operation
+          schema:
+            type: array
+            items:
+              properties:
+                place_id:
+                  type: integer
+                  description: Id of the place
+                description:
+                  type: string
+                  description: Place' description
+                place_name:
+                  type: string
+                  description: Short name of the place
+                timestamp:
+                  type: string
+                  description: Create/Update timestamp of the place
+                settings:
+                  type: array
+                  items:
+                    properties:
+                      device_id:
+                        type: integer
+                        description: DB index of device' settings
+                      setting_device_no:
+                        type: string
+                        description: Number of the device
+                      setting_device_address:
+                        type: string
+                        description: Address of the device
+                      setting_device_reinforcement:
+                        type: integer
+                        description: Value of device' reinforcement
+                      setting_device_transmission_power:
+                        type: integer
+                        description: Value of device' transmission power
+                      setting_device_bt:
+                        type: integer
+                        description: Value of device' connectivity state (0 - conn. off, 1 - wifi active, 2 - bt active, 3 - bt and wifi active)
+                      setting_device_battery_status:
+                        type: integer
+                        description: Value of device' battery status
+                      setting_device_state:
+                        type: boolean
+                        description: Value of device' state (0 - off, 1 - on)
+                      timestamp:
+                        type: string
+                        description: Create/Update timestamp of the setting
+
+    post:
+      operationId: rooms.create
+      tags:
+        - Rooms
+      summary: Create a place
+      description: Create a new place
+      parameters:
+        - name: place
+          in: body
+          description: New localisation for devices set will be created
+          required: True
+          schema:
+            type: object
+            properties:
+              description:
+                  type: string
+                  description: Place' description
+              place_name:
+                type: string
+                description: Short name of the place
+      responses:
+        201:
+          description: Successfully created place
+          schema:
+            properties:
+                place_id:
+                  type: integer
+                  description: Id of the place
+                description:
+                  type: string
+                  description: Place' description
+                place_name:
+                  type: string
+                  description: Short name of the place
+                timestamp:
+                  type: string
+                  description: Create/Update timestamp of the place
+
+  /rooms/{place_id}:
+    get:
+      operationId: rooms.read_one
+      tags:
+        - Rooms
+      summary: Read one place
+      description: Read one place
+      parameters:
+        - name: place_id
+          in: path
+          description: Id of the place to get
+          type: integer
+          required: true
+      responses:
+        200:
+          description: Successfully read place from rooms data operation
+          schema:
+            type: object
+            properties:
+              place_id:
+                type: string
+                description: Id of the place
+              description:
+                type: string
+                description: First name of the place
+              place_name:
+                type: string
+                description: Last name of the place
+              timestamp:
+                type: string
+                description: Creation/Update timestamp of the place record
+              settings:
+                type: array
+                items:
+                  properties:
+                    place_id:
+                      type: integer
+                      description: Id of place this setting is associated with
+                    device_id:
+                      type: integer
+                      description: Id of this setting
+                    setting:
+                      type: string
+                      description: description of this devices' setting
+                    setting_device_address:
+                      type: string
+                      description: image of this setting
+                    timestamp:
+                      type: string
+                      description: Create/Update timestamp of this setting
+
+    put:
+      operationId: rooms.update
+      tags:
+        - Rooms
+      summary: Update a place
+      description: Update a place
+      parameters:
+        - name: place_id
+          in: path
+          description: Id the place to update
+          type: integer
+          required: true
+        - name: place
+          in: body
+          schema:
+            type: object
+            properties:
+              description:
+                type: string
+                description: First name of the place
+              place_name:
+                type: string
+                description: Last name of the place
+      responses:
+        200:
+          description: Successfully updated place
+          schema:
+            properties:
+              place_id:
+                type: integer
+                description: Id of the place in the database
+              description:
+                type: string
+                description: First name of the place
+              place_name:
+                type: string
+                description: Last name of the place
+              timestamp:
+                type: string
+                description: Creation/Update timestamp of the place record
+
+    delete:
+      operationId: rooms.delete
+      tags:
+        - Rooms
+      summary: Delete a place from the rooms list
+      description: Delete a place
+      parameters:
+        - name: place_id
+          in: path
+          type: integer
+          description: Id of the place to delete
+          required: true
+      responses:
+        200:
+          description: Successfully deleted a place
+
+  /settings:
+    get:
+      operationId: settings.read_all
+      tags:
+        - Settings
+      summary: Read the entire set of settings for all rooms, sorted by timestamp
+      description: Read the entire set of settings for all rooms, sorted by timestamp
+      responses:
+        200:
+          description: Successfully read settings for all rooms operation
+          schema:
+            type: array
+            items:
+              properties:
+                device_id:
+                  type: integer
+                  description: DB index of device' settings
+                setting_device_no:
+                  type: string
+                  description: Number of the device
+                setting_device_address:
+                  type: string
+                  description: Address of the device
+                setting_device_reinforcement:
+                  type: integer
+                  description: Value of device' reinforcement
+                setting_device_transmission_power:
+                  type: integer
+                  description: Value of device' transmission power
+                setting_device_bt:
+                  type: integer
+                  description: Value of device' connectivity state (0 - conn. off, 1 - wifi active, 2 - bt active, 3 - bt and wifi active)
+                setting_device_battery_status:
+                  type: integer
+                  description: Value of device' battery status
+                setting_device_state:
+                  type: boolean
+                  description: Value of device' state (0 - off, 1 - on)
+                timestamp:
+                  type: string
+                  description: Create/Update timestamp of the setting
+                place:
+                  type: object
+                  properties:
+                    place_id:
+                      type: integer
+                      description: Id of associated place
+                    description:
+                      type: string
+                      description: Frist name of associated place
+                    place_name:
+                      type: string
+                      description: Last name of associated place
+                    timestamp:
+                      type: string
+                      description: Create/Update timestamp of associated place
+
+  /rooms/{place_id}/settings:
+    post:
+      operationId: settings.create
+      tags:
+        - Settings
+      summary: Create a device settings associated with a place
+      description: Create a device setting associated with a place
+      parameters:
+        - name: place_id
+          in: path
+          description: Id of place associated with a new device setting
+          type: integer
+          required: true
+        - name: setting_data
+          in: body
+          description: Values of device' settings to create in DB
+          required: True
+          schema:
+            type: object
+            properties:
+                setting_device_no:
+                  type: string
+                  description: Number of the device
+                setting_device_address:
+                  type: string
+                  description: Address of the device
+                setting_device_reinforcement:
+                  type: integer
+                  description: Value of device' reinforcement
+                setting_device_transmission_power:
+                  type: integer
+                  description: Value of device' transmission power
+                setting_device_bt:
+                  type: integer
+                  description: Value of device' connectivity state (0 - conn. off, 1 - wifi active, 2 - bt active, 3 - bt and wifi active)
+                setting_device_battery_status:
+                  type: integer
+                  description: Value of device' battery status
+                setting_device_state:
+                  type: boolean
+                  description: Value of device' state (0 - off, 1 - on)
+      responses:
+        201:
+          description: Successfully created a setting
+          schema:
+            properties:
+              place_id:
+                type: integer
+                description: Id of the place associated with the setting
+              device_id:
+                type: integer
+                description: Id of the created setting
+              setting:
+                type: string
+                description: Text description of the device' setting
+              setting_device_address:
+                type: string
+                description: Text description of the device' setting
+              timestamp:
+                type: string
+                description: Creation/Update timestamp of the place record
+
+  /rooms/{place_id}/settings/{device_id}:
+    get:
+      operationId: settings.read_one
+      tags:
+        - Settings
+      summary: Read a particular device' setting associated with a selected localisation
+      description: Read a particular setting associated with a place
+      parameters:
+        - name: place_id
+          in: path
+          description: Id of place associated with device' settings
+          type: integer
+          required: true
+        - name: device_id
+          in: path
+          description: Id of selected device
+          type: integer
+          required: true
+      responses:
+        200:
+          description: Successfully read device settings for a place
+          schema:
+            type: object
+            properties:
+              device_id:
+                type: integer
+                description: DB index of device' settings
+              setting_device_no:
+                type: string
+                description: Number of the device
+              setting_device_address:
+                type: string
+                description: Address of the device
+              setting_device_reinforcement:
+                type: integer
+                description: Value of device' reinforcement
+              setting_device_transmission_power:
+                type: integer
+                description: Value of device' transmission power
+              setting_device_bt:
+                type: integer
+                description: Value of device' connectivity state (0 - conn. off, 1 - wifi active, 2 - bt active, 3 - bt and wifi active)
+              setting_device_battery_status:
+                type: integer
+                description: Value of device' battery status
+              setting_device_state:
+                type: boolean
+                description: Value of device' state (0 - off, 1 - on)
+              timestamp:
+                type: string
+                description: Create/Update timestamp of the setting
+
+    put:
+      operationId: settings.update
+      tags:
+        - Settings
+      summary: Update possible to change device' settings associated with a particular place
+      description: Update a settings associated with a place
+      parameters:
+        - name: place_id
+          in: path
+          description: Id the place to update
+          type: integer
+          required: true
+        - name: device_id
+          in: path
+          description: Id of the device' setting associated with a place
+          type: integer
+          required: true
+        - name: setting
+          in: body
+          schema:
+            type: object
+            properties:
+              setting_device_reinforcement:
+                type: integer
+                description: Value of device' reinforcement
+              setting_device_transmission_power:
+                type: integer
+                description: Value of device' transmission power
+              setting_device_bt:
+                type: integer
+                description: Value of device' connectivity state (0 - conn. off, 1 - wifi active, 2 - bt active, 3 - bt and wifi active)
+      responses:
+        200:
+          description: Successfully updated setting
+          schema:
+            properties:
+              device_id:
+                type: string
+                description: Id of the setting associated with a place
+              place_id:
+                type: integer
+                description: Id of the place in the database
+              setting_device_reinforcement:
+                type: integer
+                description: Value of device' reinforcement
+              setting_device_transmission_power:
+                type: integer
+                description: Value of device' transmission power
+              setting_device_bt:
+                type: integer
+                description: Value of device' connectivity state (0 - conn. off, 1 - wifi active, 2 - bt active, 3 - bt and wifi active)
+              timestamp:
+                type: string
+                description: Creation/Update timestamp of the setting record
+
+    delete:
+      operationId: settings.delete
+      tags:
+        - Settings
+      summary: Delete a setting associated with a place
+      description: Delete a setting associated with a place
+      parameters:
+        - name: place_id
+          in: path
+          description: Id of place associated with setting
+          type: integer
+          required: true
+        - name: device_id
+          in: path
+          description: Id of setting
+          type: integer
+          required: true
+      responses:
+        200:
+          description: Successfully deleted a setting

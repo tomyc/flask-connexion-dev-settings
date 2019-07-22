@@ -1,0 +1,85 @@
+{% extends "parent.html" %}
+
+{% block title %}Setting{% endblock %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="/static/css/settings.css">
+{% endblock %}
+
+{% block page_name %}Room Setting: Create/Update/Delete Page{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <input id="url_place_id" type="hidden" value="{{ place_id }}" />
+        <input id="url_setting_id" type="hidden" value="{{ device_id }}" />
+        <div class="section display">
+            <div>
+                <span>Place ID:</span>
+                <span id="place_id"></span>
+            </div>
+            <div>
+                <span>First Name:</span>
+                <span id="description"></span>
+            </div>
+            <div>
+                <span>Last Name:</span>
+                <span id="place_name"></span>
+            </div>
+            <div>
+                <span>Timestamp:</span>
+                <span id="timestamp"></span>
+            </div>
+        </div>
+        <div class="section editor">
+            <div>
+                <span>Setting ID:</span>
+                <span id="device_id"></span>
+            </div>
+            <label for="setting">Setting
+                <input id="setting" type="text" maxlength="200"/>
+            </label>
+            <br />
+            <button id="create">Create</button>
+            <button id="update">Update</button>
+            <button id="delete">Delete</button>
+            <button id="reset">Reset</button>
+        </div>
+    </div>
+    <div class="settings">
+        <table class="renstr_site">
+            <caption>settings</caption>
+            <thead>
+                <tr>
+                    <th class="timestamp">Update Time</th>
+                    <th class="setting">Device' Setting Description/th>
+                    <th class="setting_device_address">Image</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="error">
+    </div>
+
+{% raw %}
+<script id="settings-table-template" type="text/x-handlebars-template">
+    <tbody>
+        {{#each settings}}
+        <tr data-device_id="{{device_id}}" data-content="{{setting}}">
+            <td class="timestamp">{{formatTimestamp timestamp}}</td>
+            <td class="setting">{{setting}}</td>
+            <td class="setting_device_address"><img src="data:image/png;base64,{{setting_device_address}}" height="25%"></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</script>
+{% endraw %}
+
+{% endblock %}
+
+{% block javascript %}
+{{ super() }}
+<script src="/static/js/settings.js"></script>
+{% endblock %}
