@@ -4,17 +4,26 @@ Main module of the server file
 
 # 3rd party moudles
 from flask import render_template
+from flask_cors import CORS
 
 # Local modules
 import config
 
+def set_cors_headers_on_response(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Headers'] = 'X-Requested-With'
+    response.headers['Access-Control-Allow-Methods'] = 'OPTIONS'
+    return response
 
 # Get the application instance
 connex_app = config.connex_app
 
 # Read the swagger.yml file to configure the endpoints
 connex_app.add_api("swagger.yml")
+connex_app.app.after_request(set_cors_headers_on_response)
 
+# add CORS support
+# CORS(connex_app.app)
 
 # Create a URL route in our application for "/"
 @connex_app.route("/")
